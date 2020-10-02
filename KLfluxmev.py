@@ -65,7 +65,7 @@ def F(eR, A):
         return (1)
     else:
         qF = np.sqrt(2 * mT(A) * eR)
-        cF = 1.23 * A ** (1 / 3) - 0.6
+        cF = 1.23 * A ** (1. / 3.) - 0.6
         rF = np.sqrt(cF ** 2 + 7 * ((np.pi * aF) ** 2) / 3 - 5 * sF ** 2)
         qrF = qF * rF / 0.197
         return (3 * np.exp(-(qF * sF / 0.197) ** 2 / 2) * (np.sin(qrF) - np.cos(qrF) * qrF) / qrF ** 3) 
