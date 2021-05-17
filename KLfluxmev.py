@@ -52,6 +52,9 @@ def mu(A,mchi):
 def crosssec(A,sigma,mchi):
     return(sigma * A**2 * mu(A,mchi)**2/mu(1,mchi)**2)
 
+def Fsqr(eR,A):
+    return((1/(1+2*mp*eR/(.770*.770))**2)**2)
+
 def F(eR, A):
     if A==1:
         return(1/(1+2*mp*eR/(.770*.770))**2)
@@ -212,9 +215,11 @@ for en in espect:
 
     # If particle reaches detector with enough energy to possibly trigger detector, append recoil energy it would induce to array
     if z > 0 and energy > Emin:
-        finalspect.append(energy)
-        recoilspect.append(eRec)
-        equivspect.append(Te(eRec))
+        threshold,th2 = quad(Fsqr,0,(energy*energy + 2*mdm*energy)/(energy + (mdm + mT(1))*(mdm + mT(1))/(2*mT(1))),args=(1,))
+        if threshold/((energy*energy + 2*mdm*energy)/(energy + (mdm + mT(1))*(mdm + mT(1))/(2*mT(1)))) > np.random.random_sample():
+            finalspect.append(energy)
+            recoilspect.append(eRec)
+            equivspect.append(Te(eRec))
         print(ncol)
     # If it reaches detector with too little energy, append energy
     if z > 0 and energy < Emin:
